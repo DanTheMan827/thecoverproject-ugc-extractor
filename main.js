@@ -36,41 +36,26 @@ $(function(){
       processImage(img);
       return
     }
-    
-    if(!url.match(/^http?:\/\/www\.thecoverproject\.net\/download_cover\.php/i)){
+
+    if(!url.match(/^https?:\/\/www\.thecoverproject\.net\/download_cover\.php/i)){
       alert('Invalid URL.\n\nExample: http://www.thecoverproject.net/download_cover.php?file=n64_007-worldisnotenough.jpg')
       return;
     }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'blob';
-
+    
     $mainForm.addClass("loading");
-    xhr.onload = function(e) {
-      if (this.status == 200) {
-        var reader = new FileReader();
-
-        lastUrl = url;
-
-        reader.onload = function(){
-          // here you'll call what to do with the base64 string result
-          img = new Image;
-          img.onload = function(e){
-            processImage(img)
-          }
-          img.src = this.result;
-
-        };
-
-        reader.readAsDataURL(this.response);
-      } else {
-        alert("There was an error loading the image, " + this.status + ".")
+    img = new Image;
+    img.crossOrigin = "Anonymous";
+    img.onload = function(e){
+      try {
+        processImage(img)
+      } catch(err) {
+        alert(err.message)
       }
     }
-    xhr.onerror = function(err){
-      alert("There was an error loading the image.\r\n\r\n" + err.message)
+    img.onerror = function(err){
+      alert('There was an error loading the image.')
     }
-    xhr.send();
+    img.src = url;
+
   })
 })
