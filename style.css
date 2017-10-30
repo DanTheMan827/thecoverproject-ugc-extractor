@@ -1,0 +1,23 @@
+body {
+  text-align: center;
+}
+
+#mainForm {
+  display: inline-block;
+}
+#mainForm #loading {
+  display: none;
+}
+#mainForm.loaded img {
+  display: inline-block;
+}
+#mainForm.loading #loading {
+  display: inline-block;
+}
+#mainForm.loading img {
+  display: none;
+}
+
+img {
+  width: 500px;
+}
